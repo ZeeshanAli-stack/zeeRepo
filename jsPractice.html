@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #taskInput{
+            padding: 9px;
+        }
+        button{
+            padding: 9px;
+            background-color: blue;
+            border: 0px;
+            border-radius: 24px;
+            margin-left: 29px;
+        }
+        button:hover{
+            background-color: brown;
+        }
+    </style>
+</head>
+<body>
+    <h1>To-do List</h1>
+    <input type="text" id="taskInput" placeholder="Add new Task">
+    <button class="AddBtn" onclick="addTask()">Add Task</button>
+    <ul  id="ulList">
+    </ul>
+    </body>
+    <script>
+        
+        function addTask(){
+            const inp = document.getElementById('taskInput');
+            const taskText = inp.value.trim();
+            if (taskText != "") {
+                function editTask(span) {
+                    const newTask = prompt("edityour task:",span.textContent);
+                    if (newTask!== null && newTask.trim() !== "")
+                    span.textContent = newTask.trim();
+                }
+                function removeTask(li,deleteBtn,editBtn,span) {
+                    li.remove();
+                    deleteBtn.remove();
+                    editBtn.remove();
+                    span.remove(); 
+                }
+                const ul = document.getElementById('ulList') ;
+
+                const li = document.createElement('li');
+
+                const span = document.createElement('span');
+                span.textContent = taskText;
+
+                const editBtn = document.createElement("button");
+                editBtn.textContent = "edit";
+                editBtn.onclick = ()=>editTask(span);  
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = "Delete";
+                deleteBtn.onclick = () => removeTask(span,li,editBtn,deleteBtn);
+
+                ul.appendChild(li);
+                li.appendChild(span);
+                li.appendChild(editBtn);
+                li.appendChild(deleteBtn);
+
+                inp.value = "";
+
+            }
+            else{
+                alert("plese enter the value")
+            }
+        }
+    </script>
+</html>
