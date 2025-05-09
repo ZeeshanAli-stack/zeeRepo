@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>WHAKE A MOLE GAME</title>
+    <style>
+ body{
+    background-image: url('bg10.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1{
+    font-family: cursive;
+    text-align: center;
+    font-size: 82px;
+    font-weight: bolder;
+    color: orangered;
+    margin-top: 0%;
+}
+#loss{
+    color: red; 
+    font-size: 61px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 63px 235px;
+}
+#won{
+    color: green; 
+    font-size: 61px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 63px 235px;
+}
+
+#mole{
+    position: absolute;
+    left: 39%;
+    top: 24%;
+
+}
+#mud{
+    position: fixed;
+    left: 30%;
+    width: 500px;
+    top: 44%;
+}
+button{
+     height: 70px;
+    width: 180px;
+    background-color: darkgreen;
+    color: floralwhite;
+    font-size: x-large;
+    font-weight: bold;
+    border: floralwhite solid 4px;
+    border-radius: 32px;
+    position: absolute;
+    top: 85%;
+    left: 43%;
+    cursor: pointer;
+}
+
+.dirt{
+    width: 170px;
+    position: absolute;
+    z-index: 1;
+    visibility: hidden;
+}
+#dirt1{
+    top: 60%;
+    left: 20%;
+}
+#dirt2{
+    top: 90%;
+    left: 20%;
+
+}
+#dirt3{
+    top: 60%;
+    left: 45%;
+}
+#dirt4{
+    top: 90%;
+    left: 45%;
+}
+#dirt5{ 
+    top: 60%;
+    left: 65%;
+}
+#dirt6{
+    top: 90%;
+    left: 65%;
+}
+.points{
+    font-size: x-large;
+    font-weight: bolder;
+    padding-left: 20px;
+     visibility: hidden;
+}
+.mole{
+    position: absolute;
+    height: 80px;
+    width: 70px;
+    visibility: hidden;
+
+}
+#mole1{
+    top: 52%;
+    left: 23%;
+
+}
+#mole3{
+    top: 52%;
+    left: 23%;
+}
+#mole5{
+   top: 52%;
+    left: 68%;
+}
+#mole2{
+    top: 82%;
+    left: 23%;
+}
+#mole4{
+    top: 82%;
+    left: 48%;
+}
+
+#mole6{
+    top: 82%;
+    left: 68%;
+}
+.t-center{
+    text-align: center;
+}
+    </style>
+</head>
+<body id="bod">
+
+   <h1>WHAKE A MOLE</h1>
+    <img src="mole.png" id="mole">
+    <img src="dirt.svg" id="mud">
+   <button type="button" onclick="start()" id="start">START</button>
+   <img src="dirt.svg" id="dirt1" class="dirt">
+   <img src="dirt.svg" id="dirt2" class="dirt">
+   <img src="dirt.svg" id="dirt3" class="dirt">
+   <img src="dirt.svg" id="dirt4" class="dirt">
+   <img src="dirt.svg" id="dirt5" class="dirt">
+   <img src="dirt.svg" id="dirt6" class="dirt">
+
+   <img src="mole.png" id="mole1" class="mole" onclick="clicked()">
+   <img src="mole.png" id="mole2" class="mole" onclick="clicked()">
+   <img src="mole.png" id="mole3" class="mole" onclick="clicked()">
+   <img src="mole.png" id="mole4" class="mole" onclick="clicked()">
+   <img src="mole.png" id="mole5" class="mole" onclick="clicked()">
+   <img src="mole.png" id="mole6" class="mole" onclick="clicked()">
+
+   <div class="t-center"><span class="points">YOUR POINT :-</span><span id="currentPoint" class="points">0</span>
+    <p id="loss" style="display: none;">You loss the game</p>
+    <p id ="won" style ="display: none;">You won</p>
+    <button id = "Restart" onclick="start(); scoreZero();" style="display: none;">Resatart the Game</button>
+    
+</div>
+   <script>
+    
+    var currentPoint=0;
+    function scoreZero(){
+        currentPoint=0;
+        document.getElementById("currentPoint").innerHTML = currentPoint;
+    }
+    let gameIsRunning = false;
+    function clicked() {
+
+            document.getElementById("currentPoint").innerHTML = currentPoint;
+            currentPoint++;
+            if (currentPoint >= 15) {
+                gameIsRunning=true;
+                hideDirt();
+                won();
+            }
+        }
+
+function start(){
+    document.getElementById("mole").style.visibility = 'hidden';
+    document.getElementById("mud").style.visibility = "hidden";
+    document.getElementById("start").style.visibility = 'hidden';
+    document.getElementById('Restart').style.display = "none";
+    document.getElementById('won').style.display = "none";
+    document.getElementById('loss').style.display = "none";
+
+    for (var i = 0; i < 2; i++) {
+        document.getElementsByClassName("points")[i].style.visibility = "visible";
+    }
+    for (var i = 0; i < 6; i++) {
+        document.getElementsByClassName("dirt")[i].style.visibility = "visible";
+    }
+        gameIsRunning = false;
+       startGame();
+    //    gameIsRunning = false;
+    
+       setTimeout(() => {
+        if (currentPoint < 15) {
+            gameIsRunning = true;
+            hideDirt();
+            loss();  
+        }
+       }, 20000);
+}
+function startGame() {
+    
+    if (!gameIsRunning) {
+         var random = Math.floor(Math.random() * 6) + 1;
+        document.getElementById("mole" + random).style.visibility = "visible";
+        setTimeout(() => {
+            for (var i = 0; i < 6; i++) {
+                document.getElementsByClassName("mole")[i].style.visibility = "hidden";
+
+            }
+            startGame();
+        }, 900);
+    } 
+    
+}
+function hideDirt() {
+    for (var i = 0; i < 6; i++) {
+        document.getElementsByClassName("dirt")[i].style.visibility = "hidden";
+    }
+}
+function won(){
+    document.getElementById('won').style.display = "block";
+    var btn = document.getElementById('Restart').style.display = "block";
+}
+ 
+
+    function loss(){
+            document.getElementById('loss').style.display = "block";
+            var btn = document.getElementById('Restart').style.display = "block";
+        }
+
+
+   
+    
+
+   </script>
+
+</body>
+</html>
